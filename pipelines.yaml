@@ -1,0 +1,36 @@
+trigger:
+  tags:
+    include:
+      - v*
+
+pool:
+  vmImage: 'ubuntu-16.04'
+
+stages:
+  - stage: test
+    displayName: "Run Tests"
+    jobs:
+      - job: unit_tests
+        displayName: "Run Unit Tests"
+        pool:
+          vmImage: "ubuntu-16.04"
+          steps:
+            - task: UsePythonVersion@0
+              inputs:
+                versionSpec: "3.x"
+              displayName: "Use Python 3.x"
+            - script: pip install pytest==5.3.0 pytest-cov==2.10.0
+              displayName: "Install Pytest"
+            - script: pytest
+              displayName: "Run unit tests"
+            - task: PublishTestResults@2
+              displayName: "Publish unit test results"
+              inputs:
+                testResultsFiles: "tests.xml"
+                testRunTitle: Test
+            - task: PublishCodeCoverageResults@1
+              displayName: "Publish code coverage"
+              inputs:
+                codeCoverageTool: Cobertura
+                summaryFileLocation: "$(System.DefaultWorkingDirectory)//coverage.xml"
+                reportDirectory: "$(System.DefaultWorkingDirectory)//htmlcov"
