@@ -5,3 +5,6 @@ htmlcov
 coverage.xml
 tests.xml
 *.pyc
+azdo_cli.egg-info
+build
+dist
