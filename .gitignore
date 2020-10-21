@@ -1,0 +1,7 @@
+.idea
+venv
+.coverage
+htmlcov
+coverage.xml
+tests.xml
+*.pyc

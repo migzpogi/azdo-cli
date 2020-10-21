@@ -4,7 +4,7 @@ with open("README.md", "r") as f:
     long_description = f.read()
 
 setup(
-    name="azdocli",
+    name="azdo-cli",
     version="0.0.1",
     packages=find_packages(),
     include_package_data=True,
