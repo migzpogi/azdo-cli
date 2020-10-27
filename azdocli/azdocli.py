@@ -1,5 +1,9 @@
 import click
 import configparser
+from pprint import pprint
+
+from azdocli.lib.commons import foo_commons, load_settings
+from azdocli.lib.core import CoreAPI
 
 
 def foo():
@@ -35,15 +39,39 @@ def stub():
 def init(org_name, pat):
     config = configparser.ConfigParser()
     config['org'] = {
-        'org_name': org_name,
+        'name': org_name,
         'pat': pat
     }
     with open('settings.ini', 'w') as f:
         config.write(f)
 
 
+@click.group()
+def projects():
+    """
+    Commands for managing projects within Azure DevOps
+    """
+    pass
+
+
+@click.command()
+def listprojects():
+    """
+    Get all projects in the organization
+    """
+    cfg = load_settings()
+    if cfg:
+        coreapi = CoreAPI(cfg['org']['name'], cfg['org']['pat'])
+        click.echo(pprint(coreapi.list_projects()))
+    else:
+        click.echo("Init this")
+
+
 cli.add_command(hello)
 cli.add_command(stub)
 cli.add_command(init)
+cli.add_command(projects)
+
+projects.add_command(listprojects)
 
 
