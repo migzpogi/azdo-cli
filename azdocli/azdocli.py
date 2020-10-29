@@ -2,7 +2,7 @@ import click
 import configparser
 from pprint import pprint
 
-from azdocli.lib.commons import foo_commons, load_settings
+from azdocli.lib.commons import foo_commons, load_settings, controller_switch
 from azdocli.lib.core import CoreAPI
 
 
@@ -13,22 +13,6 @@ def foo():
 @click.group()
 def cli():
     pass
-
-
-@click.command()
-@click.option('--count', default=1, help='Number of greetings.')
-@click.option('--name', prompt='Your name',
-              help='The person to greet.')
-def hello(count, name):
-    for x in range(count):
-        click.echo(f'Hello {name}!')
-
-
-@click.command()
-def stub():
-    config = configparser.ConfigParser()
-    config.read('settings.ini')
-    click.echo(f'Config {config["org"]["pat"]}')
 
 
 @click.command()
@@ -47,19 +31,39 @@ def init(org_name, pat):
 
 
 @click.group()
-def projects():
+@click.pass_context
+def projects(ctx):
     """
-    Commands for managing projects within Azure DevOps
+    Commands for managing projects
     """
+    ctx.ensure_object(dict)
+    ctx.obj['controller'] = 'projects'
     pass
 
 
+@click.group()
+@click.pass_context
+def svc(ctx):
+    """
+    Commands for managing service endpoints
+    """
+    ctx.ensure_object(dict)
+    ctx.obj['controller'] = 'svc'
+
+
 @click.command()
-def listprojects():
+@click.pass_context
+def getall(ctx):
     """
-    Get all projects in the organization
+    Performs a list operation
     """
+    print(ctx.obj['controller'])
     cfg = load_settings()
+    if not cfg:
+        click.echo("Init first")
+
+    client = controller_switch(ctx.obj['controller'], cfg)
+
     if cfg:
         coreapi = CoreAPI(cfg['org']['name'], cfg['org']['pat'])
         click.echo(pprint(coreapi.list_projects()))
@@ -67,11 +71,11 @@ def listprojects():
         click.echo("Init this")
 
 
-cli.add_command(hello)
-cli.add_command(stub)
 cli.add_command(init)
 cli.add_command(projects)
+cli.add_command(svc)
 
-projects.add_command(listprojects)
+projects.add_command(getall)
+svc.add_command(getall)
 
 
