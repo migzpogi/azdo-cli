@@ -3,7 +3,7 @@ import configparser
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 
-from azdocli.lib.core import CoreAPI
+# from azdocli.lib.core import CoreAPI
 
 
 def foo_commons():
@@ -41,15 +41,15 @@ def load_settings():
         return config
 
 
-def controller_switch(controller, cfg):
-    """
-    Determines what type of controller to execute
-    :param controller:
-    :param cfg:
-    :return:
-    """
-
-    if controller == 'projects':
-        return CoreAPI(cfg['org']['name'], cfg['org']['pat'])
-    if controller == 'svc':
-        return 2
+# def controller_switch(controller, cfg):
+#     """
+#     Determines what type of controller to execute
+#     :param controller:
+#     :param cfg:
+#     :return:
+#     """
+#
+#     if controller == 'projects':
+#         return CoreAPI(cfg['org']['name'], cfg['org']['pat'])
+#     if controller == 'svc':
+#         return 2

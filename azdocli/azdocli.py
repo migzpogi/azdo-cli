@@ -1,13 +1,22 @@
 import click
 import configparser
-from pprint import pprint
 
-from azdocli.lib.commons import foo_commons, load_settings, controller_switch
-from azdocli.lib.core import CoreAPI
+from azdocli.lib.commons import load_settings
+from azdocli.lib.controller_switch import execute_strategy
 
 
 def foo():
     return True
+
+
+def set_context(ctx, operation):
+    ctx.obj['operation'] = operation
+    cfg = load_settings()
+    if not cfg:
+        print("Init first")
+    else:
+        ctx.obj['org_name'] = cfg['org']['name']
+        ctx.obj['org_pat'] = cfg['org']['pat']
 
 
 @click.group()
@@ -57,18 +66,18 @@ def getall(ctx):
     """
     Performs a list operation
     """
-    print(ctx.obj['controller'])
-    cfg = load_settings()
-    if not cfg:
-        click.echo("Init first")
+    set_context(ctx, 'getall')
+    execute_strategy(ctx)
 
-    client = controller_switch(ctx.obj['controller'], cfg)
 
-    if cfg:
-        coreapi = CoreAPI(cfg['org']['name'], cfg['org']['pat'])
-        click.echo(pprint(coreapi.list_projects()))
-    else:
-        click.echo("Init this")
+@click.command()
+@click.pass_context
+def get(ctx):
+    """
+    Performs a get operation
+    """
+    set_context(ctx, 'get')
+    execute_strategy(ctx)
 
 
 cli.add_command(init)
@@ -76,6 +85,8 @@ cli.add_command(projects)
 cli.add_command(svc)
 
 projects.add_command(getall)
-svc.add_command(getall)
+projects.add_command(get)
 
+svc.add_command(getall)
+svc.add_command(get)
 
