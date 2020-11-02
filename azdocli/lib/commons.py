@@ -3,8 +3,6 @@ import configparser
 from azure.devops.connection import Connection
 from msrest.authentication import BasicAuthentication
 
-# from azdocli.lib.core import CoreAPI
-
 
 def foo_commons():
     return "Hello commons"
@@ -26,30 +24,17 @@ def create_azdo_connection(org_name, org_pat):
     return connection
 
 
-def load_settings():
+def load_settings(filename='settings.ini'):
     """
     Loads the settings.ini file which contains the organization name and personal access token
+    :param str filename: location of the file
     :return:
     """
 
     config = configparser.ConfigParser()
-    config.read('settings.ini')
+    config.read(filename)
 
     if not config.sections():
         return None
     else:
         return config
-
-
-# def controller_switch(controller, cfg):
-#     """
-#     Determines what type of controller to execute
-#     :param controller:
-#     :param cfg:
-#     :return:
-#     """
-#
-#     if controller == 'projects':
-#         return CoreAPI(cfg['org']['name'], cfg['org']['pat'])
-#     if controller == 'svc':
-#         return 2

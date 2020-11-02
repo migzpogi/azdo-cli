@@ -10,6 +10,16 @@ def foo():
 
 
 def set_context(ctx, operation):
+    """
+    Always done before performing an operation (get, getall, etc).
+    Updates the context of what operation it is performing and checks if the settings.ini file is initialized
+      properly.
+    Sets the org name and pat in the context object.
+
+    :param ctx: context object passed around
+    :param str operation: operation to be performed (get, getall, etc)
+    :return:
+    """
     ctx.obj['operation'] = operation
     cfg = load_settings()
     if not cfg:
