@@ -27,8 +27,9 @@ def create_azdo_connection(org_name, org_pat):
 def load_settings(filename='settings.ini'):
     """
     Loads the settings.ini file which contains the organization name and personal access token
+
     :param str filename: location of the file
-    :return:
+    :return: config object or None
     """
 
     config = configparser.ConfigParser()
@@ -37,4 +38,8 @@ def load_settings(filename='settings.ini'):
     if not config.sections():
         return None
     else:
-        return config
+        try:
+            if config['org']['name'] is not None and config['org']['pat'] is not None:
+                return config
+        except KeyError:
+            return None
