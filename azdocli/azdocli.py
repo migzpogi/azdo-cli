@@ -4,29 +4,27 @@ import configparser
 from azdocli.lib.commons import load_settings
 from azdocli.lib.controller_switch import execute_strategy
 
-
-def foo():
-    return True
+from pprint import pprint
 
 
-def set_context(ctx, operation):
+def set_context(ctx, operation, filename='settings.ini'):
     """
-    Always done before performing an operation (get, getall, etc).
-    Updates the context of what operation it is performing and checks if the settings.ini file is initialized
-      properly.
-    Sets the org name and pat in the context object.
+    Always done before performing an operation (get, getall, etc) to ensure that the organization name and pat is
+      initialized in the context.
 
     :param ctx: context object passed around
     :param str operation: operation to be performed (get, getall, etc)
-    :return:
+    :param str filename: location of the settings.ini file
+    :return: ctx or None
     """
     ctx.obj['operation'] = operation
-    cfg = load_settings()
+    cfg = load_settings(filename)
     if not cfg:
-        print("Init first")
+        return None
     else:
         ctx.obj['org_name'] = cfg['org']['name']
         ctx.obj['org_pat'] = cfg['org']['pat']
+        return ctx
 
 
 @click.group()
@@ -40,6 +38,9 @@ def cli():
 @click.option('--pat', prompt='Your personal access token for that organization',
               help='Your personal access token for that organization')
 def init(org_name, pat):
+    """
+    Initialize the settings.ini file
+    """
     config = configparser.ConfigParser()
     config['org'] = {
         'name': org_name,
@@ -76,8 +77,12 @@ def getall(ctx):
     """
     Performs a list operation
     """
-    set_context(ctx, 'getall')
-    execute_strategy(ctx)
+    if set_context(ctx, 'getall'):
+        result = execute_strategy(ctx)
+        pprint(result)
+    else:
+        click.echo("The settings.ini file is not found or is not initialized properly. Please use 'azdocli init' or "
+                   "refer to the documentation.")
 
 
 @click.command()
