@@ -10,9 +10,10 @@ def execute_strategy(ctx):
 
     if controller == 'projects' and operation == 'getall':
         context.strategy = ProjectsListStrategy(ctx)
-        context.execute()
+        return context.execute()
     elif controller == 'svc' and operation == 'getall':
         context.strategy = SvcListStrategy(ctx)
-        context.execute()
+        return context.execute()
     else:
         print("No strategies found")
+        return None
