@@ -1,7 +1,6 @@
 from azdocli.lib.commons import create_azdo_connection
 
 
-
 class CoreAPI:
     def __init__(self, org_name, org_pat):
         self.connection = create_azdo_connection(org_name, org_pat)
