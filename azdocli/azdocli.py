@@ -27,6 +27,22 @@ def set_context(ctx, operation, filename='settings.ini'):
         return ctx
 
 
+def run(ctx, operation):
+    """
+    Sets the context then executes the strategy
+
+    :param ctx: context object passed around
+    :param str operation: operation to be performed (get, getall, etc)
+    :return:
+    """
+    if set_context(ctx, operation):
+        result = execute_strategy(ctx)
+        pprint(result)
+    else:
+        click.echo("The settings.ini file is not found or is not initialized properly. Please use 'azdocli init' or "
+                   "refer to the documentation.")
+
+
 @click.group()
 def cli():
     pass
@@ -79,12 +95,7 @@ def getall(ctx):
     """
     Performs a list operation
     """
-    if set_context(ctx, 'getall'):
-        result = execute_strategy(ctx)
-        pprint(result)
-    else:
-        click.echo("The settings.ini file is not found or is not initialized properly. Please use 'azdocli init' or "
-                   "refer to the documentation.")
+    run(ctx, 'getall')
 
 
 @click.command()
@@ -93,8 +104,7 @@ def get(ctx):
     """
     Performs a get operation
     """
-    set_context(ctx, 'get')
-    execute_strategy(ctx)
+    run(ctx, 'get')
 
 
 cli.add_command(init)
