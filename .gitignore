@@ -9,3 +9,4 @@ azdo_cli.egg-info
 build
 dist
 settings.ini
+tests/lib/dummy/init_test_settings.ini
