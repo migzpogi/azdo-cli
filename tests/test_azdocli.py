@@ -1,5 +1,5 @@
 import unittest
-from azdocli.azdocli import set_context, cli, init
+from azdocli.azdocli import set_context, cli
 from click.testing import CliRunner
 import os.path
 
@@ -50,6 +50,16 @@ class TestAzdoCli(unittest.TestCase):
 
         self.assertEqual(result.exit_code, 0)
         self.assertTrue(os.path.isfile(filename))
+
+    def test_if_projects_was_called_then_it_should_exit_code_0(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ['projects'])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_if_svc_was_called_then_it_should_exit_code_0(self):
+        runner = CliRunner()
+        result = runner.invoke(cli, ['svc'])
+        self.assertEqual(result.exit_code, 0)
 
 
 if __name__ == '__main__':
