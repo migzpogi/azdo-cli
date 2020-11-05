@@ -1,5 +1,7 @@
 import unittest
-from azdocli.azdocli import set_context
+from azdocli.azdocli import set_context, cli, init
+from click.testing import CliRunner
+import os.path
 
 
 class DummyContext():
@@ -33,8 +35,21 @@ class TestAzdoCli(unittest.TestCase):
 
         self.assertEqual(expected, actual)
 
+    def test_if_cli_was_called_then_it_should_exit_code_0(self):
+        runner = CliRunner()
+        result = runner.invoke(cli)
+        self.assertEqual(result.exit_code, 0)
 
+    def test_if_init_was_called_then_it_should_create_a_settings_ini_file(self):
+        filename = './tests/lib/dummy/init_test_settings.ini'
+        runner = CliRunner()
+        result = runner.invoke(cli, ['init',
+                                     '--orgname', 'org_name_init_test',
+                                     '--pat', 'pat_init_test',
+                                     '--filename', filename])
 
+        self.assertEqual(result.exit_code, 0)
+        self.assertTrue(os.path.isfile(filename))
 
 
 if __name__ == '__main__':
