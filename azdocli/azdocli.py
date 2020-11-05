@@ -33,20 +33,22 @@ def cli():
 
 
 @click.command()
-@click.option('--org_name', prompt='The name of the Azure DevOps organization',
+@click.option('--orgname', prompt='The name of the Azure DevOps organization',
               help='The name of the Azure Devops organization')
 @click.option('--pat', prompt='Your personal access token for that organization',
               help='Your personal access token for that organization')
-def init(org_name, pat):
+@click.option('--filename', default='settings.ini',
+              help='Location and filename.')
+def init(orgname, pat, filename):
     """
     Initialize the settings.ini file
     """
     config = configparser.ConfigParser()
     config['org'] = {
-        'name': org_name,
+        'name': orgname,
         'pat': pat
     }
-    with open('settings.ini', 'w') as f:
+    with open(filename, 'w') as f:
         config.write(f)
 
 
