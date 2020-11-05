@@ -37,7 +37,8 @@ def run(ctx, operation):
     """
     if set_context(ctx, operation):
         result = execute_strategy(ctx)
-        pprint(result)
+        if result:
+            pprint(result)
     else:
         click.echo("The settings.ini file is not found or is not initialized properly. Please use 'azdocli init' or "
                    "refer to the documentation.")
