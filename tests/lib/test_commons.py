@@ -1,4 +1,5 @@
 import unittest
+
 from azdocli.lib import commons
 
 

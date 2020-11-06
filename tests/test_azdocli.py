@@ -1,7 +1,9 @@
 import unittest
-from azdocli.azdocli import set_context, cli
-from click.testing import CliRunner
 import os.path
+
+from click.testing import CliRunner
+
+from azdocli.azdocli import set_context, cli
 
 
 class DummyContext():

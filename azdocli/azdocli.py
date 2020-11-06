@@ -1,10 +1,10 @@
-import click
 import configparser
+from pprint import pprint
+
+import click
 
 from azdocli.lib.commons import load_settings
 from azdocli.lib.controller_switch import execute_strategy
-
-from pprint import pprint
 
 
 def set_context(ctx, operation, filename='settings.ini'):
