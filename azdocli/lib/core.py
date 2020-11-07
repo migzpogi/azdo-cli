@@ -1,4 +1,5 @@
 from azdocli.lib.commons import create_azdo_connection
+from azure.devops.exceptions import AzureDevOpsServiceError
 
 
 class CoreAPI:
@@ -25,3 +26,23 @@ class CoreAPI:
             )
 
         return list_of_projects
+
+    def get_project(self, project_name):
+        """
+
+        :param project_name:
+        :return:
+        """
+
+        try:
+            project = self.core_client.get_project(project_name)
+            project_result = {
+                "id": project.id,
+                "name": project.name,
+                "description": project.description
+            }
+        except AzureDevOpsServiceError:
+            print("Project does not exist.")
+            project_result = None
+
+        return project_result

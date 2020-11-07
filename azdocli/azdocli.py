@@ -101,10 +101,12 @@ def getall(ctx):
 
 @click.command()
 @click.pass_context
-def get(ctx):
+@click.option('--name', prompt='The name or id of the project.', help='The name or id of the project')
+def get(ctx, name):
     """
     Performs a get operation
     """
+    ctx.obj['project_name'] = name
     run(ctx, 'get')
 
 
