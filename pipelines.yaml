@@ -19,7 +19,7 @@ stages:
             inputs:
               versionSpec: "3.x"
             displayName: "Use Python 3.x"
-          - script: pip install pytest==5.3.0 pytest-cov==2.10.1 pytest-xdist==2.1.0
+          - script: pip install -r requirements.txt
             displayName: "Install Pytest"
           - script: pytest -n auto
             displayName: "Run unit tests"
