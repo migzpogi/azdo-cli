@@ -6,7 +6,19 @@ with open("README.md", "r") as f:
 setup(
     name="azdo-cli",
     version="0.0.1",
+    author="Migz Estrella",
+    author_email="me@migzestrella.com",
+    description="An Azure DevOps CLI client.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/migzpogi/azdo-cli",
     packages=find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires=">=3.6",
     include_package_data=True,
     install_requires=[
         'Click',
