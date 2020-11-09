@@ -16,7 +16,7 @@ class TestAzdoCli(unittest.TestCase):
 
     def test_if_set_context_was_called_then_it_should_update_its_values(self):
         context = DummyContext()
-        set_context(context, 'dummy_operation', filename='./tests/lib/settings.ini')
+        set_context(context, 'dummy_operation', filename='./tests/lib/test-settings.ini')
 
         expected_org_name = 'dummy_org_name'
         expected_org_pat = 'dummy_pat'
@@ -33,7 +33,7 @@ class TestAzdoCli(unittest.TestCase):
     def test_if_set_context_was_called_and_no_settings_ini_file_was_found_then_it_should_return_none(self):
         context = DummyContext()
         expected = None
-        actual = set_context(context, 'dummy_operation', filename='./tests/lib/dummy/settings.ini')
+        actual = set_context(context, 'dummy_operation', filename='./tests/lib/dummy/test-settings.ini')
 
         self.assertEqual(expected, actual)
 

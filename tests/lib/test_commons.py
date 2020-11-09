@@ -11,7 +11,7 @@ class TestCommons(unittest.TestCase):
         self.assertEqual(expected, actual)
 
     def test_if_settings_file_exists_then_it_must_return_correct_config_values(self):
-        loaded = commons.load_settings('./tests/lib/settings.ini')
+        loaded = commons.load_settings('./tests/lib/test-settings.ini')
 
         expected_org_name = 'dummy_org_name'
         expected_pat = 'dummy_pat'
