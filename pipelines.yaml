@@ -21,7 +21,7 @@ stages:
             displayName: "Use Python 3.x"
           - script: pip install -r requirements.txt
             displayName: "Install Pytest"
-          - script: pytest -n auto
+          - script: pytest
             displayName: "Run unit tests"
           - task: PublishTestResults@2
             displayName: "Publish unit test results"
