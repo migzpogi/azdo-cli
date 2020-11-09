@@ -119,4 +119,3 @@ projects.add_command(get)
 
 svc.add_command(getall)
 svc.add_command(get)
-
