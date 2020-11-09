@@ -15,12 +15,6 @@ stages:
         pool:
           vmImage: "ubuntu-16.04"
         steps:
-          - task: AzureKeyVault@1
-            inputs:
-              azureSubscription: 'MambaDevSVC'
-              KeyVaultName: 'MambaDevKV'
-              SecretsFilter: '*'
-              RunAsPreJob: true
           - task: UsePythonVersion@0
             inputs:
               versionSpec: "3.x"
@@ -68,3 +62,37 @@ stages:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)"
               ArtifactName: "dist"
               publishLocation: "Container"
+
+  - stage: deploy_to_test
+    displayName: "Deploy to PyPi Test"
+    dependsOn:
+      - build
+    condition: succeeded()
+    jobs:
+      - deployment: deploy_to_test
+        displayName: "Deploy to PyPi Test"
+        environment: "test"
+        pool:
+          vmImage: "ubuntu-16.04"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureKeyVault@1
+                  inputs:
+                    azureSubscription: 'MambaDevSVC'
+                    KeyVaultName: 'MambaDevKV'
+                    SecretsFilter: '*'
+                    RunAsPreJob: true
+                - task: UsePythonVersion@0
+                  inputs:
+                    versionSpec: "3.x"
+                  displayName: "Use Python 3.x"
+                - script: pip install twine
+                  displayName: "Install Twine"
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    artifactName: "dist"
+                    downloadPath: "$(System.DefaultWorkingDirectory)"
+                - script: twine upload --repository testpypi dist/dist/* -u $(pypitestuser) -p $(pypitestpass)
+                  displayName: "Twine upload to PyPi Test"
