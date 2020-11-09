@@ -112,6 +112,12 @@ stages:
           runOnce:
             deploy:
               steps:
+                - task: AzureKeyVault@1
+                  inputs:
+                    azureSubscription: 'MambaDevSVC'
+                    KeyVaultName: 'MambaDevKV'
+                    SecretsFilter: '*'
+                    RunAsPreJob: true
                 - task: UsePythonVersion@0
                   inputs:
                     versionSpec: "3.x"
