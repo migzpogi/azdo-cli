@@ -64,33 +64,33 @@ stages:
               publishLocation: "Container"
 
   - stage: integration_test
-      displayName: "Run Integration Tests"
-      dependsOn:
-        - build
-      jobs:
-        - job: integration_test
-          displayName: "Run Integration Tests"
-          pool:
-            vmImage: "ubuntu-16.04"
-          steps:
-            - task: UsePythonVersion@0
-              inputs:
-                versionSpec: "3.x"
-              displayName: "Use Python 3.x"
-            - task: AzureKeyVault@1
-              inputs:
-                azureSubscription: 'MambaDevSVC'
-                KeyVaultName: 'MambaDevKV'
-                SecretsFilter: '*'
-                RunAsPreJob: true
-            - script: pip install -r requirements.txt
-              displayName: "Install Pytest"
-            - script: pip install .
-              displayName: "Install azdocli"
-            - script: azdocli init --orgname 'migzzgim' --pat $(patmigzzgim)
-              displayName: "Initialize settings.ini"
-            - script: pytest -n auto tests_integration
-              displayName: "Run integration tests"
+    displayName: "Run Integration Tests"
+    dependsOn:
+      - build
+    jobs:
+      - job: integration_test
+        displayName: "Run Integration Tests"
+        pool:
+          vmImage: "ubuntu-16.04"
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.x"
+            displayName: "Use Python 3.x"
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: 'MambaDevSVC'
+              KeyVaultName: 'MambaDevKV'
+              SecretsFilter: '*'
+              RunAsPreJob: true
+          - script: pip install -r requirements.txt
+            displayName: "Install Pytest"
+          - script: pip install .
+            displayName: "Install azdocli"
+          - script: azdocli init --orgname 'migzzgim' --pat $(patmigzzgim)
+            displayName: "Initialize settings.ini"
+          - script: pytest -n auto tests_integration
+            displayName: "Run integration tests"
 
 
 #  - stage: deploy_to_test
