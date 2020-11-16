@@ -39,7 +39,7 @@ class CoreAPI:
             project_result = {
                 "id": project.id,
                 "name": project.name,
-                "description": project.description
+                "description": project.description if project.description else ""
             }
         except AzureDevOpsServiceError:
             print("Project does not exist.")
