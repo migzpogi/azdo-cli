@@ -101,7 +101,7 @@ def getall(ctx):
 
 @click.command()
 @click.pass_context
-@click.option('--name', prompt='The name or id of the project.', help='The name or id of the project')
+@click.option('--name', prompt='The name of the resource.', help='The name of the resource to get.')
 def get(ctx, name):
     """
     Performs a get operation
