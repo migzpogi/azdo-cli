@@ -1,6 +1,7 @@
 import configparser
 
 from azure.devops.connection import Connection
+from azure.devops.exceptions import AzureDevOpsAuthenticationError
 from msrest.authentication import BasicAuthentication
 
 
@@ -19,7 +20,12 @@ def create_azdo_connection(org_name, org_pat):
 
     organization_url = f'https://dev.azure.com/{org_name}'
     credentials = BasicAuthentication('', org_pat)
-    connection = Connection(base_url=organization_url, creds=credentials)
+
+    try:
+        connection = Connection(base_url=organization_url, creds=credentials)
+    except AzureDevOpsAuthenticationError:
+        print("Please check PAT used.")
+        connection = None
 
     return connection
 
