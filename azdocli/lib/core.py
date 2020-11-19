@@ -25,10 +25,10 @@ class CoreAPI:
                         'name': p.name
                     }
                 )
-
-            return list_of_projects
         except AzureDevOpsAuthenticationError:
             print("Authentication error. Please check if PAT is correct.")
+
+        return list_of_projects
 
     def get_project(self, project_name):
         """
@@ -36,6 +36,7 @@ class CoreAPI:
         :param project_name:
         :return:
         """
+        project_result = None
 
         try:
             project = self.core_client.get_project(project_name)
@@ -46,9 +47,7 @@ class CoreAPI:
             }
         except AzureDevOpsServiceError:
             print("Project does not exist.")
-            project_result = None
         except AzureDevOpsAuthenticationError:
             print("Authentication error. Please check if PAT is correct.")
-            project_result = None
 
         return project_result
