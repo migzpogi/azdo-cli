@@ -51,3 +51,11 @@ class CoreAPI:
             print("Authentication error. Please check if PAT is correct.")
 
         return project_result
+
+    def list_teams(self):
+        """
+
+        :return:
+        """
+
+        return self.core_client.get_teams()
