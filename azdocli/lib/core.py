@@ -58,4 +58,13 @@ class CoreAPI:
         :return:
         """
 
-        return self.core_client.get_teams()
+        list_of_all_teams = []
+        all_teams = self.core_client.get_all_teams()
+        for team in all_teams:
+            list_of_all_teams.append(
+                {
+                    "project_name": team.project_name,
+                    "team_name": team.name
+                }
+            )
+        return list_of_all_teams

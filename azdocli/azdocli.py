@@ -90,6 +90,16 @@ def svc(ctx):
     ctx.obj['controller'] = 'svc'
 
 
+@click.group()
+@click.pass_context
+def teams(ctx):
+    """
+    Commands for managing teams
+    """
+    ctx.ensure_object(dict)
+    ctx.obj['controller'] = 'teams'
+
+
 @click.command()
 @click.pass_context
 def getall(ctx):
@@ -110,12 +120,14 @@ def get(ctx, name):
     run(ctx, 'get')
 
 
-cli.add_command(init)
-cli.add_command(projects)
-cli.add_command(svc)
+for command in [init, projects, svc, teams]:
+    cli.add_command(command)
+
 
 projects.add_command(getall)
 projects.add_command(get)
 
 svc.add_command(getall)
 svc.add_command(get)
+
+teams.add_command(getall)
