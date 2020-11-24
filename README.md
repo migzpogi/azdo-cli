@@ -39,3 +39,11 @@ Sample:
   ]
 }
 ```
+
+## Available Commands
+```
+projects get
+projects getall
+
+teams getall
+```
