@@ -5,7 +5,12 @@ from azure.devops.exceptions import AzureDevOpsServiceError, AzureDevOpsAuthenti
 class CoreAPI:
     def __init__(self, org_name, org_pat):
         self.connection = create_azdo_connection(org_name, org_pat)
-        self.core_client = self.connection.clients_v6_0.get_core_client()
+
+        try:
+            self.core_client = self.connection.clients_v6_0.get_core_client()
+        except AzureDevOpsServiceError as e:
+            print(e)
+            exit(1)
 
     def list_projects(self):
         """
@@ -25,8 +30,8 @@ class CoreAPI:
                         'name': p.name
                     }
                 )
-        except AzureDevOpsAuthenticationError:
-            print("Authentication error. Please check if PAT is correct.")
+        except AzureDevOpsAuthenticationError as e:
+            print(e)
 
         return list_of_projects
 
@@ -45,10 +50,10 @@ class CoreAPI:
                 "name": project.name,
                 "description": project.description if project.description else ""
             }
-        except AzureDevOpsServiceError:
-            print("Project does not exist.")
-        except AzureDevOpsAuthenticationError:
-            print("Authentication error. Please check if PAT is correct.")
+        except AzureDevOpsServiceError as e:
+            print(e)
+        except AzureDevOpsAuthenticationError as e:
+            print(e)
 
         return project_result
 
@@ -59,12 +64,18 @@ class CoreAPI:
         """
 
         list_of_all_teams = []
-        all_teams = self.core_client.get_all_teams()
-        for team in all_teams:
-            list_of_all_teams.append(
-                {
-                    "project_name": team.project_name,
-                    "team_name": team.name
-                }
-            )
+        try:
+            all_teams = self.core_client.get_all_teams()
+            for team in all_teams:
+                list_of_all_teams.append(
+                    {
+                        "project_name": team.project_name,
+                        "team_name": team.name
+                    }
+                )
+        except AzureDevOpsAuthenticationError as e:
+            print(e)
+        except AzureDevOpsServiceError as e:
+            print(e)
+
         return list_of_all_teams
