@@ -27,15 +27,16 @@ def set_context(ctx, operation, filename='settings.ini'):
         return ctx
 
 
-def run(ctx, operation):
+def run(ctx, operation, filename='settings.ini'):
     """
     Sets the context then executes the strategy
 
     :param ctx: context object passed around
     :param str operation: operation to be performed (get, getall, etc)
+    :param str filename: location of the settings.ini file
     :return:
     """
-    if set_context(ctx, operation):
+    if set_context(ctx, operation, filename):
         result = execute_strategy(ctx)
         if result:
             pprint(result)
@@ -102,11 +103,13 @@ def teams(ctx):
 
 @click.command()
 @click.pass_context
-def getall(ctx):
+@click.option('--filename', default='settings.ini',
+              help='Location and filename.')
+def getall(ctx, filename):
     """
     Performs a list operation
     """
-    run(ctx, 'getall')
+    run(ctx, 'getall', filename)
 
 
 @click.command()
