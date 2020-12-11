@@ -1,0 +1,17 @@
+001
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `projects getall`
+THEN the cli must return a list of all projects of the organization
+
+002
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `projects get leonhard`
+THEN the cli must return the id of leonhard
+
+GIVEN a settings.ini file with correct org name and WRONG pat
+WHEN the user runs `projects getall`
+THEN
+
+GIVEN a settings.ini file with correct org name and INVALID pat
+WHEN the user runs `projects getall`
+THEN
