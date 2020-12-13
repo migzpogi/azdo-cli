@@ -10,7 +10,7 @@ THEN the cli must return the id of leonhard
 
 GIVEN a settings.ini file with correct org name and WRONG pat
 WHEN the user runs `projects getall`
-THEN
+THEN the cli must exit with code(1)
 
 GIVEN a settings.ini file with correct org name and INVALID pat
 WHEN the user runs `projects getall`
