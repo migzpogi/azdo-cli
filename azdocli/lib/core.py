@@ -9,7 +9,7 @@ class CoreAPI:
         try:
             self.core_client = self.connection.clients_v6_0.get_core_client()
         except AzureDevOpsServiceError as e:
-            print(e)
+            print(0)
             exit(1)
 
     def list_projects(self):
@@ -30,8 +30,12 @@ class CoreAPI:
                         'name': p.name
                     }
                 )
+        except AzureDevOpsServiceError as e:
+            print(e, "Invalid PAT provided.")
+            exit(1)
         except AzureDevOpsAuthenticationError as e:
-            print(e)
+            print(e, "Wrong PAT provided.")
+            exit(2)
 
         return list_of_projects
 

@@ -31,25 +31,20 @@ class TestIntegrationProject(unittest.TestCase):
         self.assertEqual('leonhard', actual['name'])
         self.assertEqual(result.exit_code, 0)
 
-    def test_foo(self):
+    def test_if_getall_projects_with_wrong_pat_then_exit_2(self):
+        """003"""
         filename = './tests_integration/settings-wrong-creds.ini'
         runner = CliRunner()
-        result = runner.invoke(cli, ['projects',
-                                     'get',
-                                     '--name',
-                                     'leonhard',
-                                     '--filename',
-                                     filename])
-        self.assertEqual(result.exit_code, 0)
-        # with self.assertRaises(AzureDevOpsServiceError):
-        #     result = runner.invoke(cli, ['projects',
-        #                                  'get',
-        #                                  '--name',
-        #                                  'leonhard',
-        #                                  '--filename',
-        #                                  filename])
-        # with self.assertRaises(AzureDevOpsServiceError):
-        #     runner.invoke(cli, ['projects', 'getall'])
+        result = runner.invoke(cli, ['projects', 'getall', '--filename', filename])
+        self.assertEqual(result.exit_code, 2)
+
+    def test_if_getall_projects_with_invalid_pat_then_exit_1(self):
+        """003"""
+        filename = './tests_integration/settings-invalid-creds.ini'
+        runner = CliRunner()
+        result = runner.invoke(cli, ['projects', 'getall', '--filename', filename])
+        self.assertEqual(result.exit_code, 1)
+
 
 
 
