@@ -23,7 +23,7 @@ class TestIntegrationProject(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli, ['projects',
                                      'get',
-                                     '--name',
+                                     '--projectname',
                                      'leonhard'])
 
         actual = json.loads(result.output.replace("'", '"'))
@@ -49,14 +49,14 @@ class TestIntegrationProject(unittest.TestCase):
         """005"""
         filename = './tests_integration/settings-wrong-creds.ini'
         runner = CliRunner()
-        result = runner.invoke(cli, ['projects', 'get', '--name', 'leonhard', '--filename', filename])
+        result = runner.invoke(cli, ['projects', 'get', '--projectname', 'leonhard', '--filename', filename])
         self.assertEqual(result.exit_code, 2)
 
     def test_if_get_project_with_invalid_pat_then_exit_2(self):
         """006"""
         filename = './tests_integration/settings-invalid-creds.ini'
         runner = CliRunner()
-        result = runner.invoke(cli, ['projects', 'get', '--name', 'leonhard', '--filename', filename])
+        result = runner.invoke(cli, ['projects', 'get', '--projectname', 'leonhard', '--filename', filename])
         self.assertEqual(result.exit_code, 2)
 
     def test_if_get_project_and_wrong_project_name_then_exit_1(self):
@@ -64,7 +64,7 @@ class TestIntegrationProject(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli, ['projects',
                                      'get',
-                                     '--name',
+                                     '--projectname',
                                      'noprojectname'])
 
         self.assertEqual(result.exit_code, 1)
@@ -82,7 +82,7 @@ class TestIntegrationProject(unittest.TestCase):
     def test_if_get_teams_of_sampleproject_then_count_must_be_two(self):
         """008"""
         runner = CliRunner()
-        result = runner.invoke(cli, ['teams', 'get', '--name', 'sampleproject'])
+        result = runner.invoke(cli, ['teams', 'get', '--projectname', 'sampleproject'])
 
         actual = json.loads(result.output.replace("'", '"'))
 
@@ -94,7 +94,7 @@ class TestIntegrationProject(unittest.TestCase):
         runner = CliRunner()
         result = runner.invoke(cli, ['teams',
                                      'get',
-                                     '--name',
+                                     '--projectname',
                                      'noprojectname'])
 
         self.assertEqual(result.exit_code, 1)

@@ -114,12 +114,12 @@ def getall(ctx, filename):
 
 @click.command()
 @click.pass_context
-@click.option('--name', prompt='The name of the resource.', help='The name of the resource to get.')
-def get(ctx, name):
+@click.option('--projectname', prompt='The name of the resource.', help='The name of the resource to get.')
+def get(ctx, projectname):
     """
     Performs a get operation
     """
-    ctx.obj['project_name'] = name
+    ctx.obj['project_name'] = projectname
     run(ctx, 'get')
 
 
