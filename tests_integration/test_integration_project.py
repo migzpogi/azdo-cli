@@ -59,6 +59,46 @@ class TestIntegrationProject(unittest.TestCase):
         result = runner.invoke(cli, ['projects', 'get', '--name', 'leonhard', '--filename', filename])
         self.assertEqual(result.exit_code, 2)
 
+    def test_if_get_project_and_wrong_project_name_then_exit_1(self):
+        """007"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['projects',
+                                     'get',
+                                     '--name',
+                                     'noprojectname'])
+
+        self.assertEqual(result.exit_code, 1)
+
+    def test_if_getall_teams_then_count_must_be_three(self):
+        """008"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams', 'getall'])
+
+        actual = json.loads(result.output.replace("'", '"'))
+
+        self.assertEqual(3, actual['count'])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_if_get_teams_of_sampleproject_then_count_must_be_two(self):
+        """008"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams', 'get', '--name', 'sampleproject'])
+
+        actual = json.loads(result.output.replace("'", '"'))
+
+        self.assertEqual(2, actual['count'])
+        self.assertEqual(result.exit_code, 0)
+
+    def test_if_get_teams_and_wrong_project_name_then_exit_1(self):
+        """007"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams',
+                                     'get',
+                                     '--name',
+                                     'noprojectname'])
+
+        self.assertEqual(result.exit_code, 1)
+
 
 if __name__ == '__main__':
     unittest.main()
