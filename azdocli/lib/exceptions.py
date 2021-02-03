@@ -8,10 +8,10 @@ def exception_handler(func):
         try:
             return func(*args, **kwargs)
         except AzureDevOpsServiceError as e:
-            print(e, "Invalid PAT provided.")
+            print(e)
             exit(1)
         except AzureDevOpsAuthenticationError as e:
-            print(e, "Wrong PAT provided.")
+            print(e)
             exit(2)
 
     return inner_function
