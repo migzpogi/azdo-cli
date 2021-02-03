@@ -42,7 +42,7 @@ Sample:
 
 ## Available Commands
 ```
-projects get
+projects get --name project_name
 projects getall
 
 teams getall

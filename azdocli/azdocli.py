@@ -134,3 +134,4 @@ svc.add_command(getall)
 svc.add_command(get)
 
 teams.add_command(getall)
+teams.add_command(get)

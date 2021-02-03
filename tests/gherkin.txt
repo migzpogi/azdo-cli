@@ -8,6 +8,11 @@ GIVEN a settings.ini file with correct org name and pat
 WHEN the user runs `projects get leonhard`
 THEN the cli must return the id of leonhard
 
+007
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `projects get --name` AND project does not exist
+THEN the cli must exit with code(1)
+
 003
 GIVEN a settings.ini file with correct org name and WRONG pat
 WHEN the user runs `projects getall`
@@ -26,4 +31,19 @@ THEN the cli must exit with code(2)
 006
 GIVEN a settings.ini file with correct org name and INVALID pat
 WHEN the user runs `projects get --name`
+THEN the cli must exit with code(1)
+
+008
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams getall`
+THEN the cli must return a list of all teams of the organization
+
+009
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams get --name`
+THEN the cli must return a list of all teams of the project
+
+010
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams get --name` AND project does not exist
 THEN the cli must exit with code(1)
