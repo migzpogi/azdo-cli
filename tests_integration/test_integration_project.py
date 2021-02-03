@@ -39,11 +39,25 @@ class TestIntegrationProject(unittest.TestCase):
         self.assertEqual(result.exit_code, 2)
 
     def test_if_getall_projects_with_invalid_pat_then_exit_1(self):
-        """003"""
+        """004"""
         filename = './tests_integration/settings-invalid-creds.ini'
         runner = CliRunner()
         result = runner.invoke(cli, ['projects', 'getall', '--filename', filename])
         self.assertEqual(result.exit_code, 1)
+
+    def test_if_get_project_with_wrong_pat_then_exit_2(self):
+        """005"""
+        filename = './tests_integration/settings-wrong-creds.ini'
+        runner = CliRunner()
+        result = runner.invoke(cli, ['projects', 'get', '--name', 'leonhard', '--filename', filename])
+        self.assertEqual(result.exit_code, 2)
+
+    def test_if_get_project_with_invalid_pat_then_exit_2(self):
+        """006"""
+        filename = './tests_integration/settings-invalid-creds.ini'
+        runner = CliRunner()
+        result = runner.invoke(cli, ['projects', 'get', '--name', 'leonhard', '--filename', filename])
+        self.assertEqual(result.exit_code, 2)
 
 
 if __name__ == '__main__':
