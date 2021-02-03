@@ -42,8 +42,25 @@ Sample:
 
 ## Available Commands
 ```
-projects get --name project_name
-projects getall
+projects getall 
+  // lists all projects in the organization
+projects get --projectname project_name 
+  // gets the specific project
 
-teams getall
+teams getall 
+  // lists all teams in the organization
+teams get --projectname project_name 
+  // lists all teams in the project
+```
+
+## Roadmap
+```
+get_team(project_id, team_id)
+  // gets the specific team
+
+get_service_endpoints()
+  // list the service endpoints
+
+get_service_endpoint_details(projet_id, endpoint_id)
+  // gets the specific endpoint
 ```
