@@ -51,15 +51,18 @@ class CoreAPI:
     @exception_handler
     def list_teams(self):
         """
-
+        List all teams in the organization
         :return:
         """
-
-        list_of_all_teams = []
+        list_of_all_teams = {
+            'count': 0,
+            'values': []
+        }
 
         all_teams = self.core_client.get_all_teams()
         for team in all_teams:
-            list_of_all_teams.append(
+            list_of_all_teams['count'] += 1
+            list_of_all_teams['values'].append(
                 {
                     "project_name": team.project_name,
                     "team_name": team.name
@@ -67,3 +70,27 @@ class CoreAPI:
             )
 
         return list_of_all_teams
+
+    @exception_handler
+    def get_teams(self, project_name):
+        """
+        Get teams of a project
+        :param project_name:
+        :return:
+        """
+
+        result = {
+            'count': 0,
+            'values': []
+        }
+
+        teams_of_project = self.core_client.get_teams(project_name)
+        for t in teams_of_project:
+            result['count'] += 1
+            result['values'].append(
+                {
+                    "team_name": t.name
+                }
+            )
+
+        return result
