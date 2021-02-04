@@ -4,6 +4,7 @@ from azdocli.strategies.projects_get_strategy import ProjectsGetStrategy
 from azdocli.strategies.svc_list_strategy import SvcListStrategy
 from azdocli.strategies.teams_list_strategy import TeamsListStrategy
 from azdocli.strategies.teams_get_strategy import TeamsGetStrategy
+from azdocli.strategies.pipelineruns_get_strategy import PipelinerunsGetStrategy
 
 
 def execute_strategy(ctx):
@@ -25,6 +26,9 @@ def execute_strategy(ctx):
         return context.execute()
     elif controller == 'teams' and operation == 'get':
         context.strategy = TeamsGetStrategy(ctx)
+        return context.execute()
+    elif controller == 'pipelineruns' and operation == 'get':
+        context.strategy = PipelinerunsGetStrategy(ctx)
         return context.execute()
     else:
         print("No strategies found")

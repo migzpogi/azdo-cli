@@ -101,6 +101,16 @@ def teams(ctx):
     ctx.obj['controller'] = 'teams'
 
 
+@click.group()
+@click.pass_context
+def pipelineruns(ctx):
+    """
+    Commands for managing pipeline runs
+    """
+    ctx.ensure_object(dict)
+    ctx.obj['controller'] = 'pipelineruns'
+
+
 @click.command()
 @click.pass_context
 @click.option('--filename', default='settings.ini',
@@ -114,16 +124,18 @@ def getall(ctx, filename):
 
 @click.command()
 @click.pass_context
-@click.option('--projectname', prompt='The name of the resource.', help='The name of the resource to get.')
-def get(ctx, projectname):
+@click.option('--projectname', prompt='The name of the project.', help='The name of the project.')
+@click.option('--pipelineid', default='', help="ID for pipeline commands.")
+def get(ctx, projectname, pipelineid):
     """
     Performs a get operation
     """
     ctx.obj['project_name'] = projectname
+    ctx.obj['pipeline_id'] = pipelineid
     run(ctx, 'get')
 
 
-for command in [init, projects, svc, teams]:
+for command in [init, projects, svc, teams, pipelineruns]:
     cli.add_command(command)
 
 
@@ -135,3 +147,5 @@ svc.add_command(get)
 
 teams.add_command(getall)
 teams.add_command(get)
+
+pipelineruns.add_command(get)

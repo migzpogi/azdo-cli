@@ -1,5 +1,4 @@
 from azdocli.lib.commons import create_azdo_connection
-from azure.devops.exceptions import AzureDevOpsServiceError, AzureDevOpsAuthenticationError
 from azdocli.lib.exceptions import exception_handler
 
 
