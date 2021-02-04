@@ -55,12 +55,36 @@ teams get --projectname project_name
 
 ## Roadmap
 ```
-get_team(project_id, team_id)
+list_runs(project_id, pipeline_id) -> pipelineruns get
+  // lists the runs of the project
+
+get_team(project_id, team_id) -> teams getone
   // gets the specific team
 
-get_service_endpoints()
-  // list the service endpoints
+get_service_endpoints(project_id) -> svc get
+  // list the service endpoints of the project
 
-get_service_endpoint_details(projet_id, endpoint_id)
+get_service_endpoint_details(project_id, endpoint_id) -> svc getone
   // gets the specific endpoint
+
+list_pipelines(project_id) -> pipelines get
+  // list the pipelines of the project
+
+get_pipeline(project_id, pipeline_id) -> pipelines getone
+  // gets the specific pipeline
+
+
+
+get_run(project_id, pipeline_id, run_id) -> pipelineruns getone
+  // gets the specific run
+
+get_accounts(owner_id=None, member_id=None)
+
+get_build(project_id, build_id) -> builds getone
+
+get_builds(project_id) -> builds get
+
+
+
+
 ```
