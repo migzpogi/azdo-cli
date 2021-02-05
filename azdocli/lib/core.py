@@ -88,8 +88,26 @@ class CoreAPI:
             result['count'] += 1
             result['values'].append(
                 {
-                    "team_name": t.name
+                    "team_name": t.name,
+                    "team_id": t.id
                 }
             )
 
         return result
+
+    @exception_handler
+    def get_team(self, project_name, team_id):
+        """
+        Get a specific team
+        :param project_name:
+        :param team_id:
+        :return:
+        """
+
+        team = self.core_client.get_team(project_name, team_id)
+        team_result = {
+            "id": team.id,
+            "name": team.name,
+        }
+
+        return team_result

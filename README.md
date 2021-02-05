@@ -58,9 +58,6 @@ teams get --projectname project_name
 list_runs(project_id, pipeline_id) -> pipelineruns get
   // lists the runs of the project
 
-get_team(project_id, team_id) -> teams getone
-  // gets the specific team
-
 get_service_endpoints(project_id) -> svc get
   // list the service endpoints of the project
 

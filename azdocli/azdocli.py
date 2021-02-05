@@ -126,12 +126,14 @@ def getall(ctx, filename):
 @click.pass_context
 @click.option('--projectname', prompt='The name of the project.', help='The name of the project.')
 @click.option('--pipelineid', default='', help="ID for pipeline commands.")
-def get(ctx, projectname, pipelineid):
+@click.option('--teamid', default='', help="ID for team commands.")
+def get(ctx, projectname, pipelineid, teamid):
     """
     Performs a get operation
     """
     ctx.obj['project_name'] = projectname
     ctx.obj['pipeline_id'] = pipelineid
+    ctx.obj['team_id'] = teamid
     run(ctx, 'get')
 
 
