@@ -47,3 +47,18 @@ THEN the cli must return a list of all teams of the project
 GIVEN a settings.ini file with correct org name and pat
 WHEN the user runs `teams get --projectname` AND project does not exist
 THEN the cli must exit with code(1)
+
+011
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams get --projectname project_name --teamid team_id`
+THEN the cli must exit with code(0)
+
+012
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams get --projectname project_name --teamid team_id` AND teamid  does not exist
+THEN the cli must exit with code(1)
+
+013
+GIVEN a settings.ini file with correct org name and pat
+WHEN the user runs `teams get --projectname project_name --teamid team_id` AND project_name  does not exist
+THEN the cli must exit with code(1)

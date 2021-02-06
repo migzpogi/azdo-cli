@@ -51,6 +51,8 @@ teams getall
   // lists all teams in the organization
 teams get --projectname project_name 
   // lists all teams in the project
+teams get --projectname project_name --teamid team_id
+  // gets the specific team
 ```
 
 ## Roadmap

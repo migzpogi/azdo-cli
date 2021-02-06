@@ -99,6 +99,27 @@ class TestIntegrationProject(unittest.TestCase):
 
         self.assertEqual(result.exit_code, 1)
 
+    def test_if_get_specific_team_then_exit_code_must_be_zero(self):
+        """011"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams', 'get', '--projectname', 'sampleproject', '--teamid', 'sampleproject Team'])
+
+        self.assertEqual(result.exit_code, 0)
+
+    def test_if_get_specific_team_that_does_not_exist_then_exit_code_must_be_zero(self):
+        """012"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams', 'get', '--projectname', 'sampleproject', '--teamid', 'team does not exist'])
+
+        self.assertEqual(result.exit_code, 1)
+
+    def test_if_get_specific_team_and_project_does_not_exist_then_exit_code_must_be_zero(self):
+        """013"""
+        runner = CliRunner()
+        result = runner.invoke(cli, ['teams', 'get', '--projectname', 'notexist', '--teamid', 'sampleproject Team'])
+
+        self.assertEqual(result.exit_code, 1)
+
 
 if __name__ == '__main__':
     unittest.main()
