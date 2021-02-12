@@ -47,6 +47,23 @@ def run(ctx, operation, filename='settings.ini'):
 
 @click.group()
 def cli():
+    """
+    azdocli is a command line interface for Azure DevOps. The user can perform GET operations for different
+    resources directly in their terminal. The same can be achieved by using Postman or the web browser, but
+    where is the fun in that.
+
+    It uses a Personal Access Token (PAT) to connect to the API which the user must specify by running:
+
+        azdocli init
+
+    Once the settings.ini file is created, commands now can be ran such as:
+
+        azdocli projects getall
+
+    This will display all the projects that the user has access to in a given organization.
+
+    For any issues or help needed: https://github.com/migzpogi
+    """
     pass
 
 
