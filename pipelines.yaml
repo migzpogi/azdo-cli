@@ -15,7 +15,6 @@ stages:
         pool:
           vmImage: "ubuntu-16.04"
         steps:
-          - script: pwd
           - task: UsePythonVersion@0
             inputs:
               versionSpec: "3.x"
@@ -36,129 +35,129 @@ stages:
               summaryFileLocation: "$(System.DefaultWorkingDirectory)//coverage.xml"
               reportDirectory: "$(System.DefaultWorkingDirectory)//htmlcov"
 
-#  - stage: build
-#    displayName: "Build wheel file"
-#    dependsOn:
-#      - test
-#    condition: succeeded()
-#    jobs:
-#      - job: build_wheel
-#        displayName: "Build wheel file"
-#        pool:
-#          vmImage: "ubuntu-16.04"
-#        steps:
-#          - task: UsePythonVersion@0
-#            inputs:
-#              versionSpec: "3.x"
-#            displayName: "Use Python 3.x"
-#          - script: pip install --upgrade pip setuptools wheel
-#            displayName: "Install tools"
-#          - script: python setup.py sdist bdist_wheel
-#            displayName: "Build wheel file"
-#          - task: CopyFiles@2
-#            inputs:
-#              targetFolder: $(Build.ArtifactStagingDirectory)
-#          - task: PublishBuildArtifacts@1
-#            inputs:
-#              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-#              ArtifactName: "dist"
-#              publishLocation: "Container"
-#
-#  - stage: integration_test
-#    displayName: "Run Integration Tests"
-#    dependsOn:
-#      - build
-#    jobs:
-#      - job: integration_test
-#        displayName: "Run Integration Tests"
-#        pool:
-#          vmImage: "ubuntu-16.04"
-#        steps:
-#          - task: UsePythonVersion@0
-#            inputs:
-#              versionSpec: "3.x"
-#            displayName: "Use Python 3.x"
-#          - task: AzureKeyVault@1
-#            inputs:
-#              azureSubscription: 'MambaDevSVC'
-#              KeyVaultName: 'MambaDevKV'
-#              SecretsFilter: '*'
-#              RunAsPreJob: true
-#          - script: pip install -r requirements.txt
-#            displayName: "Install Pytest"
-#          - script: pip install .
-#            displayName: "Install azdocli"
-#          - script: azdocli init --orgname 'migzzgim' --pat $(patmigzzgim)
-#            displayName: "Initialize settings.ini"
-#          - script: pytest -n auto tests_integration
-#            displayName: "Run integration tests"
-#
-#
-#  - stage: deploy_to_test
-#    displayName: "Deploy to PyPi Test"
-#    dependsOn:
-#      - build
-#    condition: succeeded()
-#    jobs:
-#      - deployment: deploy_to_test
-#        displayName: "Deploy to PyPi Test"
-#        environment: "azdocli-test"
-#        pool:
-#          vmImage: "ubuntu-16.04"
-#        strategy:
-#          runOnce:
-#            deploy:
-#              steps:
-#                - task: AzureKeyVault@1
-#                  inputs:
-#                    azureSubscription: 'MambaDevSVC'
-#                    KeyVaultName: 'MambaDevKV'
-#                    SecretsFilter: '*'
-#                    RunAsPreJob: true
-#                - task: UsePythonVersion@0
-#                  inputs:
-#                    versionSpec: "3.x"
-#                  displayName: "Use Python 3.x"
-#                - script: pip install twine
-#                  displayName: "Install Twine"
-#                - task: DownloadBuildArtifacts@0
-#                  inputs:
-#                    artifactName: "dist"
-#                    downloadPath: "$(System.DefaultWorkingDirectory)"
-#                - script: twine upload --repository testpypi dist/dist/* -u $(pypitestuser) -p $(pypitestpass)
-#                  displayName: "Twine upload to PyPi Test"
-#
-#  - stage: deploy_to_prod
-#    displayName: "Deploy to PyPi Prod"
-#    dependsOn:
-#      - deploy_to_test
-#      - integration_test
-#    condition: succeeded()
-#    jobs:
-#      - deployment: deploy_to_prod
-#        displayName: "Deploy to PyPi Prod"
-#        environment: "azdocli-release"
-#        pool:
-#          vmImage: "ubuntu-16.04"
-#        strategy:
-#          runOnce:
-#            deploy:
-#              steps:
-#                - task: AzureKeyVault@1
-#                  inputs:
-#                    azureSubscription: 'MambaDevSVC'
-#                    KeyVaultName: 'MambaDevKV'
-#                    SecretsFilter: '*'
-#                    RunAsPreJob: true
-#                - task: UsePythonVersion@0
-#                  inputs:
-#                    versionSpec: "3.x"
-#                  displayName: "Use Python 3.x"
-#                - script: pip install twine
-#                  displayName: "Install Twine"
-#                - task: DownloadBuildArtifacts@0
-#                  inputs:
-#                    artifactName: "dist"
-#                    downloadPath: "$(System.DefaultWorkingDirectory)"
-#                - script: twine upload dist/dist/* -u $(pypiprduser) -p $(pypiprdpass)
-#                  displayName: "Twine upload to PyPi Prod"
+  - stage: build
+    displayName: "Build wheel file"
+    dependsOn:
+      - test
+    condition: succeeded()
+    jobs:
+      - job: build_wheel
+        displayName: "Build wheel file"
+        pool:
+          vmImage: "ubuntu-16.04"
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.x"
+            displayName: "Use Python 3.x"
+          - script: pip install --upgrade pip setuptools wheel
+            displayName: "Install tools"
+          - script: python setup.py sdist bdist_wheel
+            displayName: "Build wheel file"
+          - task: CopyFiles@2
+            inputs:
+              targetFolder: $(Build.ArtifactStagingDirectory)
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "dist"
+              publishLocation: "Container"
+
+  - stage: integration_test
+    displayName: "Run Integration Tests"
+    dependsOn:
+      - build
+    jobs:
+      - job: integration_test
+        displayName: "Run Integration Tests"
+        pool:
+          vmImage: "ubuntu-16.04"
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.x"
+            displayName: "Use Python 3.x"
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: 'MambaDevSVC'
+              KeyVaultName: 'MambaDevKV'
+              SecretsFilter: '*'
+              RunAsPreJob: true
+          - script: pip install -r requirements.txt
+            displayName: "Install Pytest"
+          - script: pip install .
+            displayName: "Install azdocli"
+          - script: azdocli init --orgname 'migzzgim' --pat $(patmigzzgim)
+            displayName: "Initialize settings.ini"
+          - script: pytest -n auto tests_integration
+            displayName: "Run integration tests"
+
+
+  - stage: deploy_to_test
+    displayName: "Deploy to PyPi Test"
+    dependsOn:
+      - build
+    condition: succeeded()
+    jobs:
+      - deployment: deploy_to_test
+        displayName: "Deploy to PyPi Test"
+        environment: "azdocli-test"
+        pool:
+          vmImage: "ubuntu-16.04"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureKeyVault@1
+                  inputs:
+                    azureSubscription: 'MambaDevSVC'
+                    KeyVaultName: 'MambaDevKV'
+                    SecretsFilter: '*'
+                    RunAsPreJob: true
+                - task: UsePythonVersion@0
+                  inputs:
+                    versionSpec: "3.x"
+                  displayName: "Use Python 3.x"
+                - script: pip install twine
+                  displayName: "Install Twine"
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    artifactName: "dist"
+                    downloadPath: "$(System.DefaultWorkingDirectory)"
+                - script: twine upload --repository testpypi dist/dist/* -u $(pypitestuser) -p $(pypitestpass)
+                  displayName: "Twine upload to PyPi Test"
+
+  - stage: deploy_to_prod
+    displayName: "Deploy to PyPi Prod"
+    dependsOn:
+      - deploy_to_test
+      - integration_test
+    condition: succeeded()
+    jobs:
+      - deployment: deploy_to_prod
+        displayName: "Deploy to PyPi Prod"
+        environment: "azdocli-release"
+        pool:
+          vmImage: "ubuntu-16.04"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzureKeyVault@1
+                  inputs:
+                    azureSubscription: 'MambaDevSVC'
+                    KeyVaultName: 'MambaDevKV'
+                    SecretsFilter: '*'
+                    RunAsPreJob: true
+                - task: UsePythonVersion@0
+                  inputs:
+                    versionSpec: "3.x"
+                  displayName: "Use Python 3.x"
+                - script: pip install twine
+                  displayName: "Install Twine"
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    artifactName: "dist"
+                    downloadPath: "$(System.DefaultWorkingDirectory)"
+                - script: twine upload dist/dist/* -u $(pypiprduser) -p $(pypiprdpass)
+                  displayName: "Twine upload to PyPi Prod"
