@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="azdo-cli",
-    version="1.0.0",
+    version="1.0.1",
     author="Migz Estrella",
     author_email="me@migzestrella.com",
     description="An Azure DevOps CLI client.",
