@@ -4,7 +4,7 @@ trigger:
       - v*
 
 pool:
-  vmImage: 'ubuntu-16.04'
+  vmImage: 'ubuntu-latest'
 
 stages:
   - stage: test
@@ -13,12 +13,12 @@ stages:
       - job: unit_tests
         displayName: "Run Unit Tests"
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: "ubuntu-latest"
         steps:
           - task: UsePythonVersion@0
             inputs:
-              versionSpec: "3.x"
-            displayName: "Use Python 3.x"
+              versionSpec: "3.8"
+            displayName: "Use Python 3.8"
           - script: pip install -r requirements.txt
             displayName: "Install Pytest"
           - script: pytest -n auto tests
@@ -44,12 +44,12 @@ stages:
       - job: build_wheel
         displayName: "Build wheel file"
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: "ubuntu-latest"
         steps:
           - task: UsePythonVersion@0
             inputs:
-              versionSpec: "3.x"
-            displayName: "Use Python 3.x"
+              versionSpec: "3.8"
+            displayName: "Use Python 3.8"
           - script: pip install --upgrade pip setuptools wheel
             displayName: "Install tools"
           - script: python setup.py sdist bdist_wheel
@@ -71,12 +71,12 @@ stages:
       - job: integration_test
         displayName: "Run Integration Tests"
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: "ubuntu-latest"
         steps:
           - task: UsePythonVersion@0
             inputs:
-              versionSpec: "3.x"
-            displayName: "Use Python 3.x"
+              versionSpec: "3.8"
+            displayName: "Use Python 3.8"
           - task: AzureKeyVault@1
             inputs:
               azureSubscription: 'MambaDevSVC'
@@ -103,7 +103,7 @@ stages:
         displayName: "Deploy to PyPi Test"
         environment: "azdocli-test"
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: "ubuntu-latest"
         strategy:
           runOnce:
             deploy:
@@ -116,8 +116,8 @@ stages:
                     RunAsPreJob: true
                 - task: UsePythonVersion@0
                   inputs:
-                    versionSpec: "3.x"
-                  displayName: "Use Python 3.x"
+                    versionSpec: "3.8"
+                  displayName: "Use Python 3.8"
                 - script: pip install twine
                   displayName: "Install Twine"
                 - task: DownloadBuildArtifacts@0
@@ -138,7 +138,7 @@ stages:
         displayName: "Deploy to PyPi Prod"
         environment: "azdocli-release"
         pool:
-          vmImage: "ubuntu-16.04"
+          vmImage: "ubuntu-latest"
         strategy:
           runOnce:
             deploy:
@@ -151,8 +151,8 @@ stages:
                     RunAsPreJob: true
                 - task: UsePythonVersion@0
                   inputs:
-                    versionSpec: "3.x"
-                  displayName: "Use Python 3.x"
+                    versionSpec: "3.8"
+                  displayName: "Use Python 3.8"
                 - script: pip install twine
                   displayName: "Install Twine"
                 - task: DownloadBuildArtifacts@0
