@@ -2,7 +2,7 @@
 A command-line interface client for Azure DevOps
 
 ## Requirements
-* Python 3.x
+* Python 3.8
 
 ## Installation
 `pip install azdo-cli`
